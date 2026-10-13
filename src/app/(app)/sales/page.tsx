@@ -73,7 +73,7 @@ export default function SalesPage() {
     <AppShell>
       <Header title={t("nav.sales")} />
       <div className="px-4 py-4 space-y-3">
-        {sales.map((sale, i) => {
+        {sales.map((sale) => {
           const status = statusConfig[sale.resultStatus] || statusConfig.pending;
           return (
             <Card

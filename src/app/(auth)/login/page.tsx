@@ -2,7 +2,6 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Input } from "@/components/ui/Input";
 import { NumericKeypad } from "@/components/ui/NumericKeypad";
 import { Button } from "@/components/ui/Button";
 import { LogoWithText } from "@/components/ui/Logo";

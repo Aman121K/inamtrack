@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const { phone } = parsed.data;
     console.log(`[API] Sending OTP to ${phone}`);
 
-    const code = await createOtp(phone);
+    await createOtp(phone);
     console.log(`[API] OTP created for ${phone}`);
 
     return success({ message: "OTP sent successfully" });

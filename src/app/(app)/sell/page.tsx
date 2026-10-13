@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
 import { useToast } from "@/components/ui/Toast";
