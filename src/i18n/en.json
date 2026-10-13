@@ -1,0 +1,93 @@
+{
+  "app_name": "LotTrack",
+  "nav": {
+    "home": "Home",
+    "sell": "Sell Ticket",
+    "inventory": "Stock",
+    "sales": "Sales",
+    "settings": "Settings"
+  },
+  "auth": {
+    "enter_phone": "Enter your mobile number",
+    "phone_placeholder": "98765 43210",
+    "send_otp": "Send OTP",
+    "enter_otp": "Enter OTP",
+    "otp_sent": "OTP sent",
+    "verify": "Verify",
+    "set_pin": "Set 4-digit PIN",
+    "confirm_pin": "Re-enter PIN",
+    "enter_name": "Enter your name",
+    "enter_city": "City (optional)",
+    "save": "Save",
+    "login": "Login",
+    "enter_pin": "Enter your PIN",
+    "register": "New Account",
+    "already_registered": "Already have an account?",
+    "new_user": "New here?"
+  },
+  "dashboard": {
+    "welcome": "Hello",
+    "today_sales": "Today's Sales",
+    "total_tickets": "Total Tickets",
+    "sold_tickets": "Sold",
+    "pending_results": "Results Pending",
+    "winners": "Winners",
+    "quick_actions": "Quick Actions",
+    "quick_sell": "Quick Sell",
+    "add_stock": "Add Stock",
+    "view_results": "View Results",
+    "view_customers": "View Customers"
+  },
+  "inventory": {
+    "title": "Stock",
+    "add_batch": "Add New Lot",
+    "lottery_name": "Lottery Name",
+    "series": "Series (A-Z)",
+    "start_number": "First Number",
+    "end_number": "Last Number",
+    "price": "Price (₹)",
+    "draw_date": "Draw Date",
+    "total_tickets": "Total Tickets",
+    "sold": "Sold",
+    "remaining": "Remaining",
+    "active": "Active",
+    "completed": "Completed"
+  },
+  "sell": {
+    "title": "Sell Ticket",
+    "select_batch": "Select Lot",
+    "ticket_number": "Ticket Number",
+    "customer_name": "Customer Name",
+    "customer_phone": "Customer Phone",
+    "sell_button": "Sell ✓",
+    "sale_done": "Sold!",
+    "sale_failed": "Something went wrong",
+    "change": "Change"
+  },
+  "results": {
+    "title": "Results",
+    "date": "Date",
+    "winners_found": "Winners Found",
+    "no_results": "No results",
+    "prize": "Prize"
+  },
+  "customers": {
+    "title": "Customers",
+    "total": "Total Customers",
+    "purchases": "Purchases",
+    "wins": "Wins"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "search": "Search",
+    "no_data": "No data",
+    "offline": "Offline - will sync later",
+    "online": "Online",
+    "syncing": "Syncing...",
+    "error": "Something went wrong",
+    "retry": "Try again"
+  }
+}

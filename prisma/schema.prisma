@@ -1,0 +1,189 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Agent {
+  id                String   @id @default(uuid()) @db.Uuid
+  phone             String   @unique @db.VarChar(15)
+  name              String   @db.VarChar(100)
+  pinHash           String?  @map("pin_hash") @db.VarChar(255)
+  city              String?  @db.VarChar(100)
+  preferredLanguage String   @default("hi") @map("preferred_language") @db.VarChar(2)
+  isActive          Boolean  @default(true) @map("is_active")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  sessions     Session[]
+  ticketBatches TicketBatch[]
+  customers    Customer[]
+  sales        Sale[]
+  notifications Notification[]
+  auditLogs    AuditLog[]
+  syncQueue    SyncQueue[]
+
+  @@map("agents")
+}
+
+model OtpCode {
+  id        String   @id @default(uuid()) @db.Uuid
+  phone     String   @db.VarChar(15)
+  code      String   @db.VarChar(6)
+  attempts  Int      @default(0)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([phone, verified])
+  @@index([expiresAt])
+  @@map("otp_codes")
+}
+
+model Session {
+  id           String   @id @default(uuid()) @db.Uuid
+  agentId      String   @map("agent_id") @db.Uuid
+  refreshToken String   @unique @map("refresh_token") @db.VarChar(512)
+  expiresAt    DateTime @map("expires_at") @db.Timestamptz
+  revoked      Boolean  @default(false)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model TicketBatch {
+  id             String   @id @default(uuid()) @db.Uuid
+  agentId        String   @map("agent_id") @db.Uuid
+  lotteryName    String   @map("lottery_name") @db.VarChar(200)
+  series         String   @db.Char(1)
+  startNumber    Int      @map("start_number")
+  endNumber      Int      @map("end_number")
+  ticketCount    Int      @map("ticket_count")
+  pricePerTicket Decimal  @map("price_per_ticket") @db.Decimal(10, 2)
+  drawDate       DateTime @map("draw_date") @db.Date
+  soldCount      Int      @default(0) @map("sold_count")
+  status         String   @default("active") @db.VarChar(20)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  agent Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  sales Sale[]
+
+  @@index([agentId])
+  @@index([agentId, drawDate])
+  @@map("ticket_batches")
+}
+
+model Customer {
+  id             String    @id @default(uuid()) @db.Uuid
+  agentId        String    @map("agent_id") @db.Uuid
+  name           String    @db.VarChar(100)
+  phone          String    @db.VarChar(15)
+  totalPurchases Int       @default(0) @map("total_purchases")
+  totalWins      Int       @default(0) @map("total_wins")
+  lastPurchaseAt DateTime? @map("last_purchase_at") @db.Timestamptz
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  agent Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  sales Sale[]
+
+  @@unique([agentId, phone])
+  @@map("customers")
+}
+
+model Sale {
+  id               String   @id @default(uuid()) @db.Uuid
+  agentId          String   @map("agent_id") @db.Uuid
+  batchId          String   @map("batch_id") @db.Uuid
+  customerId       String   @map("customer_id") @db.Uuid
+  ticketNumber     Int      @map("ticket_number")
+  fullTicketId     String   @map("full_ticket_id") @db.VarChar(20)
+  salePrice        Decimal  @map("sale_price") @db.Decimal(10, 2)
+  drawDate         DateTime @map("draw_date") @db.Date
+  resultStatus     String   @default("pending") @map("result_status") @db.VarChar(10)
+  prizeAmount      Decimal? @map("prize_amount") @db.Decimal(12, 2)
+  notificationSent Boolean  @default(false) @map("notification_sent")
+  offlineId        String?  @unique @map("offline_id") @db.VarChar(50)
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  agent    Agent       @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  batch    TicketBatch @relation(fields: [batchId], references: [id])
+  customer Customer    @relation(fields: [customerId], references: [id])
+
+  @@unique([agentId, fullTicketId, drawDate])
+  @@index([agentId, drawDate])
+  @@index([drawDate, resultStatus])
+  @@map("sales")
+}
+
+model DrawResult {
+  id             String   @id @default(uuid()) @db.Uuid
+  lotteryName    String   @map("lottery_name") @db.VarChar(200)
+  drawDate       DateTime @map("draw_date") @db.Date
+  winningNumbers Json     @map("winning_numbers") @db.JsonB
+  matched        Boolean  @default(false)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@unique([lotteryName, drawDate])
+  @@map("draw_results")
+}
+
+model Notification {
+  id             String   @id @default(uuid()) @db.Uuid
+  agentId        String   @map("agent_id") @db.Uuid
+  type           String   @db.VarChar(30)
+  recipientPhone String   @map("recipient_phone") @db.VarChar(15)
+  templateParams Json     @map("template_params") @db.JsonB
+  status         String   @default("queued") @db.VarChar(15)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+  @@index([status])
+  @@map("notifications")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  agentId    String?  @map("agent_id") @db.Uuid
+  entityType String   @map("entity_type") @db.VarChar(50)
+  entityId   String   @map("entity_id") @db.Uuid
+  action     String   @db.VarChar(50)
+  changes    Json?    @db.JsonB
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  agent Agent? @relation(fields: [agentId], references: [id], onDelete: SetNull)
+
+  @@index([agentId])
+  @@index([entityType, entityId])
+  @@map("audit_logs")
+}
+
+model SyncQueue {
+  id            String   @id @default(uuid()) @db.Uuid
+  agentId       String   @map("agent_id") @db.Uuid
+  operationType String   @map("operation_type") @db.VarChar(30)
+  payload       Json     @db.JsonB
+  status        String   @default("pending") @db.VarChar(15)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+  processedAt   DateTime? @map("processed_at") @db.Timestamptz
+
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId, status])
+  @@index([status, createdAt])
+  @@map("sync_queue")
+}

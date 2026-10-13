@@ -1,0 +1,93 @@
+{
+  "app_name": "LotTrack",
+  "nav": {
+    "home": "होम",
+    "sell": "टिकट बेचो",
+    "inventory": "स्टॉक",
+    "sales": "बिक्री",
+    "settings": "सेटिंग्स"
+  },
+  "auth": {
+    "enter_phone": "अपना मोबाइल नंबर डालें",
+    "phone_placeholder": "98765 43210",
+    "send_otp": "OTP भेजें",
+    "enter_otp": "OTP डालें",
+    "otp_sent": "OTP भेजा गया",
+    "verify": "वेरीफाई करें",
+    "set_pin": "4 अंकों का PIN सेट करें",
+    "confirm_pin": "PIN दोबारा डालें",
+    "enter_name": "अपना नाम डालें",
+    "enter_city": "शहर (वैकल्पिक)",
+    "save": "सेव करें",
+    "login": "लॉगिन",
+    "enter_pin": "अपना PIN डालें",
+    "register": "नया अकाउंट",
+    "already_registered": "पहले से अकाउंट है?",
+    "new_user": "नया हूं?"
+  },
+  "dashboard": {
+    "welcome": "नमस्ते",
+    "today_sales": "आज की बिक्री",
+    "total_tickets": "कुल टिकट",
+    "sold_tickets": "बेचे गए",
+    "pending_results": "नतीजे बाकी",
+    "winners": "विजेता",
+    "quick_actions": "त्वरित कार्य",
+    "quick_sell": "जल्दी बेचो",
+    "add_stock": "स्टॉक जोड़ो",
+    "view_results": "नतीजे देखो",
+    "view_customers": "ग्राहक देखो"
+  },
+  "inventory": {
+    "title": "स्टॉक",
+    "add_batch": "नई लॉट जोड़ो",
+    "lottery_name": "लॉटरी का नाम",
+    "series": "सीरीज़ (A-Z)",
+    "start_number": "पहला नंबर",
+    "end_number": "आख़री नंबर",
+    "price": "कीमत (₹)",
+    "draw_date": "ड्रॉ तारीख़",
+    "total_tickets": "कुल टिकट",
+    "sold": "बिके",
+    "remaining": "बचे",
+    "active": "चालू",
+    "completed": "पूरा हुआ"
+  },
+  "sell": {
+    "title": "टिकट बेचो",
+    "select_batch": "लॉट चुनो",
+    "ticket_number": "टिकट नंबर",
+    "customer_name": "ग्राहक का नाम",
+    "customer_phone": "ग्राहक का फ़ोन",
+    "sell_button": "बेचो ✓",
+    "sale_done": "बिक गया!",
+    "sale_failed": "गड़बड़ हो गई",
+    "change": "बदलो"
+  },
+  "results": {
+    "title": "नतीजे",
+    "date": "तारीख़",
+    "winners_found": "विजेता मिले",
+    "no_results": "कोई नतीजा नहीं",
+    "prize": "इनाम"
+  },
+  "customers": {
+    "title": "ग्राहक",
+    "total": "कुल ग्राहक",
+    "purchases": "ख़रीदारी",
+    "wins": "जीत"
+  },
+  "common": {
+    "loading": "लोड हो रहा...",
+    "save": "सेव करो",
+    "cancel": "रद्द करो",
+    "delete": "हटाओ",
+    "search": "खोजो",
+    "no_data": "कोई डेटा नहीं",
+    "offline": "ऑफ़लाइन - बाद में सिंक होगा",
+    "online": "ऑनलाइन",
+    "syncing": "सिंक हो रहा...",
+    "error": "कुछ गड़बड़ हो गई",
+    "retry": "फिर से कोशिश करो"
+  }
+}

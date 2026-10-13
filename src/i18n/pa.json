@@ -1,0 +1,93 @@
+{
+  "app_name": "LotTrack",
+  "nav": {
+    "home": "ਘਰ",
+    "sell": "ਟਿਕਟ ਵੇਚੋ",
+    "inventory": "ਸਟਾਕ",
+    "sales": "ਵਿਕਰੀ",
+    "settings": "ਸੈਟਿੰਗਜ਼"
+  },
+  "auth": {
+    "enter_phone": "ਆਪਣਾ ਮੋਬਾਈਲ ਨੰਬਰ ਪਾਓ",
+    "phone_placeholder": "98765 43210",
+    "send_otp": "OTP ਭੇਜੋ",
+    "enter_otp": "OTP ਪਾਓ",
+    "otp_sent": "OTP ਭੇਜਿਆ ਗਿਆ",
+    "verify": "ਵੈਰੀਫਾਈ ਕਰੋ",
+    "set_pin": "4 ਅੰਕਾਂ ਦਾ PIN ਸੈਟ ਕਰੋ",
+    "confirm_pin": "PIN ਦੁਬਾਰਾ ਪਾਓ",
+    "enter_name": "ਆਪਣਾ ਨਾਮ ਪਾਓ",
+    "enter_city": "ਸ਼ਹਿਰ (ਵਿਕਲਪਿਕ)",
+    "save": "ਸੇਵ ਕਰੋ",
+    "login": "ਲੌਗਿਨ",
+    "enter_pin": "ਆਪਣਾ PIN ਪਾਓ",
+    "register": "ਨਵਾਂ ਅਕਾਊਂਟ",
+    "already_registered": "ਪਹਿਲਾਂ ਤੋਂ ਅਕਾਊਂਟ ਹੈ?",
+    "new_user": "ਨਵੇਂ ਹੋ?"
+  },
+  "dashboard": {
+    "welcome": "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
+    "today_sales": "ਅੱਜ ਦੀ ਵਿਕਰੀ",
+    "total_tickets": "ਕੁੱਲ ਟਿਕਟ",
+    "sold_tickets": "ਵੇਚੇ ਗਏ",
+    "pending_results": "ਨਤੀਜੇ ਬਾਕੀ",
+    "winners": "ਜੇਤੂ",
+    "quick_actions": "ਤੁਰੰਤ ਕਾਰਵਾਈ",
+    "quick_sell": "ਜਲਦੀ ਵੇਚੋ",
+    "add_stock": "ਸਟਾਕ ਜੋੜੋ",
+    "view_results": "ਨਤੀਜੇ ਦੇਖੋ",
+    "view_customers": "ਗਾਹਕ ਦੇਖੋ"
+  },
+  "inventory": {
+    "title": "ਸਟਾਕ",
+    "add_batch": "ਨਵੀਂ ਲਾਟ ਜੋੜੋ",
+    "lottery_name": "ਲਾਟਰੀ ਦਾ ਨਾਮ",
+    "series": "ਸੀਰੀਜ਼ (A-Z)",
+    "start_number": "ਪਹਿਲਾ ਨੰਬਰ",
+    "end_number": "ਆਖ਼ਰੀ ਨੰਬਰ",
+    "price": "ਕੀਮਤ (₹)",
+    "draw_date": "ਡਰਾਅ ਤਾਰੀਖ਼",
+    "total_tickets": "ਕੁੱਲ ਟਿਕਟ",
+    "sold": "ਵਿਕੇ",
+    "remaining": "ਬਾਕੀ",
+    "active": "ਚਾਲੂ",
+    "completed": "ਪੂਰਾ ਹੋਇਆ"
+  },
+  "sell": {
+    "title": "ਟਿਕਟ ਵੇਚੋ",
+    "select_batch": "ਲਾਟ ਚੁਣੋ",
+    "ticket_number": "ਟਿਕਟ ਨੰਬਰ",
+    "customer_name": "ਗਾਹਕ ਦਾ ਨਾਮ",
+    "customer_phone": "ਗਾਹਕ ਦਾ ਫ਼ੋਨ",
+    "sell_button": "ਵੇਚੋ ✓",
+    "sale_done": "ਵਿਕ ਗਿਆ!",
+    "sale_failed": "ਗੜਬੜ ਹੋ ਗਈ",
+    "change": "ਬਦਲੋ"
+  },
+  "results": {
+    "title": "ਨਤੀਜੇ",
+    "date": "ਤਾਰੀਖ਼",
+    "winners_found": "ਜੇਤੂ ਮਿਲੇ",
+    "no_results": "ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ",
+    "prize": "ਇਨਾਮ"
+  },
+  "customers": {
+    "title": "ਗਾਹਕ",
+    "total": "ਕੁੱਲ ਗਾਹਕ",
+    "purchases": "ਖ਼ਰੀਦਾਰੀ",
+    "wins": "ਜਿੱਤ"
+  },
+  "common": {
+    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ...",
+    "save": "ਸੇਵ ਕਰੋ",
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "delete": "ਹਟਾਓ",
+    "search": "ਖੋਜੋ",
+    "no_data": "ਕੋਈ ਡੇਟਾ ਨਹੀਂ",
+    "offline": "ਆਫ਼ਲਾਈਨ - ਬਾਅਦ ਵਿੱਚ ਸਿੰਕ ਹੋਵੇਗਾ",
+    "online": "ਆਨਲਾਈਨ",
+    "syncing": "ਸਿੰਕ ਹੋ ਰਿਹਾ...",
+    "error": "ਕੁਝ ਗੜਬੜ ਹੋ ਗਈ",
+    "retry": "ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
+  }
+}
