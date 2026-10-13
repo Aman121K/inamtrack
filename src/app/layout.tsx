@@ -1,6 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import { Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+
+const notoSans = Noto_Sans({
+  subsets: ["latin", "devanagari"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "InamTrack - Lottery Ticket Manager",
@@ -35,13 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="hi">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-sans antialiased bg-gray-50 text-gray-900">
+      <body className={`${notoSans.className} antialiased bg-gray-50 text-gray-900`}>
         <Providers>{children}</Providers>
       </body>
     </html>

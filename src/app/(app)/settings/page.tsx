@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
+import Image from "next/image";
 
 export default function SettingsPage() {
   const { agent, isLoading, logout } = useAuth();
@@ -73,7 +74,7 @@ export default function SettingsPage() {
               <p className="font-medium text-gray-700">InamTrack</p>
               <p className="text-xs text-gray-300">Version 1.0.0</p>
             </div>
-            <img src="/logo.svg" alt="InamTrack" width={36} height={36} className="rounded-lg" />
+            <Image src="/logo.svg" alt="InamTrack" width={36} height={36} className="rounded-lg" />
           </div>
         </Card>
 
