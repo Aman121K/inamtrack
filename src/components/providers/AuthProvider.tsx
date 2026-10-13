@@ -46,9 +46,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     (newAccessToken: string, refreshToken: string, agentData: Agent) => {
       setAccessToken(newAccessToken);
       setAgent(agentData);
-      localStorage.setItem("lottrack_access", newAccessToken);
-      localStorage.setItem("lottrack_refresh", refreshToken);
-      localStorage.setItem("lottrack_agent", JSON.stringify(agentData));
+      localStorage.setItem("inamtrack_access", newAccessToken);
+      localStorage.setItem("inamtrack_refresh", refreshToken);
+      localStorage.setItem("inamtrack_agent", JSON.stringify(agentData));
     },
     []
   );
@@ -56,14 +56,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(() => {
     setAccessToken(null);
     setAgent(null);
-    localStorage.removeItem("lottrack_access");
-    localStorage.removeItem("lottrack_refresh");
-    localStorage.removeItem("lottrack_agent");
+    localStorage.removeItem("inamtrack_access");
+    localStorage.removeItem("inamtrack_refresh");
+    localStorage.removeItem("inamtrack_agent");
     router.push("/login");
   }, [router]);
 
   const refreshAuth = useCallback(async (): Promise<boolean> => {
-    const refreshToken = localStorage.getItem("lottrack_refresh");
+    const refreshToken = localStorage.getItem("inamtrack_refresh");
     if (!refreshToken) return false;
 
     try {
@@ -81,9 +81,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { data } = await res.json();
       setAccessToken(data.accessToken);
       setAgent(data.agent);
-      localStorage.setItem("lottrack_access", data.accessToken);
-      localStorage.setItem("lottrack_refresh", data.refreshToken);
-      localStorage.setItem("lottrack_agent", JSON.stringify(data.agent));
+      localStorage.setItem("inamtrack_access", data.accessToken);
+      localStorage.setItem("inamtrack_refresh", data.refreshToken);
+      localStorage.setItem("inamtrack_agent", JSON.stringify(data.agent));
       return true;
     } catch {
       return false;
@@ -91,8 +91,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [logout]);
 
   useEffect(() => {
-    const savedAgent = localStorage.getItem("lottrack_agent");
-    const savedToken = localStorage.getItem("lottrack_access");
+    const savedAgent = localStorage.getItem("inamtrack_agent");
+    const savedToken = localStorage.getItem("inamtrack_access");
     if (savedAgent) {
       try {
         setAgent(JSON.parse(savedAgent));

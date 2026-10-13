@@ -25,14 +25,14 @@ const I18nContext = createContext<I18nContextType>({
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("lottrack_lang") as Lang) || "en";
+      return (localStorage.getItem("inamtrack_lang") as Lang) || "en";
     }
     return "en";
   });
 
   const changeLang = useCallback((newLang: Lang) => {
     setLang(newLang);
-    localStorage.setItem("lottrack_lang", newLang);
+    localStorage.setItem("inamtrack_lang", newLang);
   }, []);
 
   const t = useCallback(

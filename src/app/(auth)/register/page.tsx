@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
+import { LogoWithText } from "@/components/ui/Logo";
 import { useI18n } from "@/components/providers/I18nProvider";
 import Link from "next/link";
 
@@ -57,17 +58,8 @@ export default function RegisterPage() {
       <BgDecor />
       <div className="w-full max-w-sm relative z-10">
         {/* Logo */}
-        <div className="text-center mb-10 animate-fade-up">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-[22px] bg-white shadow-elevated mb-5">
-            <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
-              <rect x="6" y="12" width="36" height="24" rx="4" fill="#6366f1"/>
-              <path d="M6 20h36" stroke="white" strokeWidth="2"/>
-              <circle cx="16" cy="28" r="3" fill="white"/>
-              <rect x="24" y="26" width="12" height="4" rx="2" fill="white" fillOpacity="0.5"/>
-            </svg>
-          </div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">LotTrack</h1>
-          <p className="text-white/50 text-sm mt-1">Create new account</p>
+        <div className="mb-10">
+          <LogoWithText subtitle="Create new account" />
         </div>
 
         {/* Card */}

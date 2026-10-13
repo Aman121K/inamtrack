@@ -19,10 +19,10 @@ export default function HomePage() {
   }, [agent, isLoading, router]);
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
-      <div className="text-center">
-        <p className="text-4xl mb-4">🎫</p>
-        <h1 className="text-2xl font-bold text-primary-700">LotTrack</h1>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-violet-700 flex items-center justify-center">
+      <div className="text-center animate-pulse">
+        <img src="/logo.svg" alt="InamTrack" width={80} height={80} className="mx-auto mb-4 rounded-2xl" />
+        <h1 className="text-2xl font-bold text-white">InamTrack</h1>
       </div>
     </div>
   );

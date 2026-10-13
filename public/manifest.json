@@ -1,11 +1,11 @@
 {
-  "name": "LotTrack - Lottery Ticket Manager",
-  "short_name": "LotTrack",
+  "name": "InamTrack - Lottery Ticket Manager",
+  "short_name": "InamTrack",
   "description": "Punjab State Lottery agents ke liye digital ticket management",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "theme_color": "#6366f1",
   "orientation": "portrait",
   "icons": [
     {

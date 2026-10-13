@@ -24,12 +24,12 @@ export interface OfflineBatch {
   synced: boolean;
 }
 
-class LotTrackOfflineDB extends Dexie {
+class InamTrackOfflineDB extends Dexie {
   sales!: Table<OfflineSale>;
   batches!: Table<OfflineBatch>;
 
   constructor() {
-    super("lottrack");
+    super("inamtrack");
     this.version(1).stores({
       sales: "++id, offlineId, batchId, synced",
       batches: "++id, offlineId, synced",
@@ -37,7 +37,7 @@ class LotTrackOfflineDB extends Dexie {
   }
 }
 
-export const offlineDb = new LotTrackOfflineDB();
+export const offlineDb = new InamTrackOfflineDB();
 
 export async function addOfflineSale(sale: Omit<OfflineSale, "id">) {
   return offlineDb.sales.add(sale);

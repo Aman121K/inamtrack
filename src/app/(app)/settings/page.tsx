@@ -70,16 +70,10 @@ export default function SettingsPage() {
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-700">LotTrack</p>
+              <p className="font-medium text-gray-700">InamTrack</p>
               <p className="text-xs text-gray-300">Version 1.0.0</p>
             </div>
-            <div className="w-9 h-9 rounded-xl bg-primary-50 flex items-center justify-center">
-              <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
-                <rect x="6" y="12" width="36" height="24" rx="4" fill="#e0e7ff"/>
-                <path d="M6 20h36" stroke="#4f46e5" strokeWidth="2"/>
-                <circle cx="16" cy="28" r="3" fill="#4f46e5"/>
-              </svg>
-            </div>
+            <img src="/logo.svg" alt="InamTrack" width={36} height={36} className="rounded-lg" />
           </div>
         </Card>
 

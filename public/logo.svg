@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="50%" style="stop-color:#7c3aed"/>
+      <stop offset="100%" style="stop-color:#a855f7"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24"/>
+      <stop offset="100%" style="stop-color:#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fde68a"/>
+      <stop offset="100%" style="stop-color:#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded square background -->
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- Subtle pattern circles -->
+  <circle cx="420" cy="100" r="80" fill="white" opacity="0.06"/>
+  <circle cx="90" cy="410" r="60" fill="white" opacity="0.06"/>
+  <!-- Trophy body -->
+  <path d="M196 160h120v120c0 44-27 80-60 80s-60-36-60-80V160z" fill="url(#gold)"/>
+  <!-- Trophy shine -->
+  <path d="M216 160h30v100c0 34-7 60-15 60s-15-26-15-60V160z" fill="url(#shine)" opacity="0.5"/>
+  <!-- Left handle -->
+  <path d="M196 180h-20c-28 0-50 22-50 50s22 50 50 50h20" fill="none" stroke="url(#gold)" stroke-width="20" stroke-linecap="round"/>
+  <!-- Right handle -->
+  <path d="M316 180h20c28 0 50 22 50 50s-22 50-50 50h-20" fill="none" stroke="url(#gold)" stroke-width="20" stroke-linecap="round"/>
+  <!-- Trophy base -->
+  <rect x="216" y="350" width="80" height="16" rx="8" fill="url(#gold)"/>
+  <rect x="200" y="362" width="112" height="20" rx="10" fill="url(#gold)"/>
+  <!-- Star on trophy -->
+  <polygon points="256,190 268,220 300,222 276,242 282,274 256,258 230,274 236,242 212,222 244,220" fill="white"/>
+  <!-- Sparkles -->
+  <circle cx="160" cy="140" r="6" fill="#fde68a"/>
+  <circle cx="352" cy="140" r="4" fill="#fde68a"/>
+  <circle cx="380" cy="340" r="5" fill="#fde68a"/>
+  <circle cx="130" cy="310" r="4" fill="#fde68a"/>
+  <!-- Small stars -->
+  <polygon points="140,200 144,210 154,210 146,216 148,226 140,220 132,226 134,216 126,210 136,210" fill="white" opacity="0.4"/>
+  <polygon points="372,300 375,307 383,307 377,312 379,319 372,314 365,319 367,312 361,307 369,307" fill="white" opacity="0.4"/>
+  <polygon points="340,160 342,166 348,166 344,170 345,176 340,172 335,176 336,170 332,166 338,166" fill="white" opacity="0.3"/>
+</svg>

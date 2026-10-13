@@ -35,7 +35,7 @@ export function useApi() {
           logout();
           throw new Error("Session expired");
         }
-        const freshToken = localStorage.getItem("lottrack_access");
+        const freshToken = localStorage.getItem("inamtrack_access");
         res = await doFetch(freshToken);
       }
 
