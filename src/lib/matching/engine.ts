@@ -1,4 +1,5 @@
 import { prisma } from "../db";
+import { queueNotification } from "../whatsapp/notify";
 
 interface WinningNumber {
   series: string;
@@ -48,26 +49,23 @@ export async function matchResults(): Promise<{
           },
         });
 
-        await prisma.customer.update({
+        const customer = await prisma.customer.update({
           where: { id: sale.customerId },
           data: { totalWins: { increment: 1 } },
         });
 
-        await prisma.notification.create({
+        // Queue a WhatsApp win message. The agent's own shop/name/phone is
+        // mapped in at send time via sale.agentId — see whatsapp/notify.ts.
+        await queueNotification({
+          agentId: sale.agentId,
+          type: "win_congrats",
+          recipientPhone: customer.phone,
           data: {
-            agentId: sale.agentId,
-            type: "win_congrats",
-            recipientPhone: (
-              await prisma.customer.findUnique({
-                where: { id: sale.customerId },
-              })
-            )!.phone,
-            templateParams: {
-              ticketId: fullTicketId,
-              prize: winner.amount,
-              prizeTier: winner.prize_tier,
-              lotteryName: result.lotteryName,
-            },
+            customerName: customer.name,
+            ticketId: fullTicketId,
+            prize: winner.amount,
+            prizeTier: winner.prize_tier,
+            lotteryName: result.lotteryName,
           },
         });
 

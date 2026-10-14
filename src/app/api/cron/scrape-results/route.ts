@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { success, error } from "@/lib/api/response";
 import { scrapePunjabLotteryResults } from "@/lib/scraper/punjab-lottery";
 import { matchResults } from "@/lib/matching/engine";
+import { processQueuedNotifications } from "@/lib/whatsapp/notify";
 
 export async function POST(req: NextRequest) {
   console.log("[API] POST /api/cron/scrape-results");
@@ -24,9 +25,14 @@ export async function POST(req: NextRequest) {
     const matchResult = await matchResults();
     console.log("[API] Match done:", JSON.stringify(matchResult));
 
+    console.log("[API] Flushing WhatsApp notification queue...");
+    const notifyResult = await processQueuedNotifications();
+    console.log("[API] Notify done:", JSON.stringify(notifyResult));
+
     return success({
       scrape: scrapeResult,
       match: matchResult,
+      notify: notifyResult,
       timestamp: new Date().toISOString(),
     });
   } catch (e) {

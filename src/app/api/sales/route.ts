@@ -4,6 +4,7 @@ import { authenticate } from "@/lib/auth/middleware";
 import { createSaleSchema } from "@/lib/validators/sales";
 import { prisma } from "@/lib/db";
 import { logAudit } from "@/lib/audit";
+import { queueNotification, sendNotification } from "@/lib/whatsapp/notify";
 
 export async function GET(req: NextRequest) {
   console.log("[API] GET /api/sales");
@@ -156,6 +157,31 @@ export async function POST(req: NextRequest) {
       agentId: authResult.agentId,
       metadata: { fullTicketId, customerPhone },
     });
+
+    // Send the customer a WhatsApp confirmation (with this agent's details).
+    // Never let a messaging error fail the sale — queue first, then try to send.
+    try {
+      const drawDateStr = batch.drawDate.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+      const notification = await queueNotification({
+        agentId: authResult.agentId,
+        type: "sale_confirm",
+        recipientPhone: customerPhone,
+        data: {
+          customerName,
+          lotteryName: batch.lotteryName,
+          ticketId: fullTicketId,
+          price: batch.pricePerTicket.toString(),
+          drawDate: drawDateStr,
+        },
+      });
+      await sendNotification(notification.id);
+    } catch (notifyErr) {
+      console.error("[API] sale confirmation notify failed (non-fatal):", notifyErr);
+    }
 
     return success({ sale }, 201);
   } catch (e) {
