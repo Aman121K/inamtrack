@@ -50,7 +50,9 @@ export default function InventoryPage() {
   }, [agent, isLoading, router]);
 
   const loadBatches = () => {
-    apiFetch("/api/inventory").then(setBatches).catch(() => {});
+    apiFetch("/api/inventory")
+      .then((d) => setBatches(d?.batches ?? []))
+      .catch(() => {});
   };
 
   useEffect(() => {

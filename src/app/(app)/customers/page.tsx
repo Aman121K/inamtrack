@@ -35,7 +35,7 @@ export default function CustomersPage() {
     if (agent) {
       const query = search ? `?search=${search}` : "";
       apiFetch(`/api/customers${query}`)
-        .then(setCustomers)
+        .then((d) => setCustomers(d?.customers ?? []))
         .catch(() => {});
     }
   }, [agent, apiFetch, search]);

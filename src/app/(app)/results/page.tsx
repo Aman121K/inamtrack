@@ -35,7 +35,9 @@ export default function ResultsPage() {
 
   useEffect(() => {
     if (agent) {
-      apiFetch("/api/results").then(setResults).catch(() => {});
+      apiFetch("/api/results")
+        .then((d) => setResults(d?.results ?? []))
+        .catch(() => {});
     }
   }, [agent, apiFetch]);
 

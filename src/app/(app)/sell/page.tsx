@@ -77,7 +77,9 @@ export default function SellPage() {
 
   useEffect(() => {
     if (agent) {
-      apiFetch("/api/inventory?status=active").then(setBatches).catch(() => {});
+      apiFetch("/api/inventory?status=active")
+        .then((d) => setBatches(d?.batches ?? []))
+        .catch(() => {});
     }
   }, [agent, apiFetch]);
 
@@ -133,7 +135,9 @@ export default function SellPage() {
         setSuggestions([]);
       }, 1500);
 
-      apiFetch("/api/inventory?status=active").then(setBatches).catch(() => {});
+      apiFetch("/api/inventory?status=active")
+        .then((d) => setBatches(d?.batches ?? []))
+        .catch(() => {});
     } catch (e) {
       showToast((e as Error).message || t("sell.sale_failed"), "error");
     } finally {

@@ -33,7 +33,9 @@ export default function SalesPage() {
 
   useEffect(() => {
     if (agent) {
-      apiFetch("/api/sales").then(setSales).catch(() => {});
+      apiFetch("/api/sales")
+        .then((d) => setSales(d?.sales ?? []))
+        .catch(() => {});
     }
   }, [agent, apiFetch]);
 
