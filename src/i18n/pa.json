@@ -23,7 +23,17 @@
     "enter_pin": "ਆਪਣਾ PIN ਪਾਓ",
     "register": "ਨਵਾਂ ਅਕਾਊਂਟ",
     "already_registered": "ਪਹਿਲਾਂ ਤੋਂ ਅਕਾਊਂਟ ਹੈ?",
-    "new_user": "ਨਵੇਂ ਹੋ?"
+    "new_user": "ਨਵੇਂ ਹੋ?",
+    "request_access": "ਪੋਰਟਲ ਐਕਸੈਸ ਲਈ ਬੇਨਤੀ ਕਰੋ",
+    "request_title": "ਐਕਸੈਸ ਬੇਨਤੀ",
+    "request_subtitle": "InamTrack ਨਾਲ ਜੁੜਨ ਦੀ ਬੇਨਤੀ",
+    "name_required": "ਆਪਣਾ ਨਾਮ ਲਿਖੋ",
+    "phone_required": "10 ਅੰਕਾਂ ਦਾ ਨੰਬਰ ਪਾਓ",
+    "pin_mismatch": "PIN ਮੇਲ ਨਹੀਂ ਖਾਧਾ",
+    "pin_hint": "ਇਸੇ PIN ਨਾਲ ਤੁਸੀਂ ਲੌਗਇਨ ਕਰੋਗੇ",
+    "request_sent_title": "ਬੇਨਤੀ ਭੇਜ ਦਿੱਤੀ!",
+    "request_sent_msg": "ਐਡਮਿਨ ਤੁਹਾਡੀ ਬੇਨਤੀ ਵੇਖਣਗੇ। ਮਨਜ਼ੂਰ ਹੁੰਦੇ ਹੀ ਆਪਣੇ ਨੰਬਰ ਤੇ PIN ਨਾਲ ਲੌਗਇਨ ਕਰੋ।",
+    "go_to_login": "ਲੌਗਇਨ ਤੇ ਜਾਓ"
   },
   "dashboard": {
     "welcome": "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
@@ -88,6 +98,8 @@
     "online": "ਆਨਲਾਈਨ",
     "syncing": "ਸਿੰਕ ਹੋ ਰਿਹਾ...",
     "error": "ਕੁਝ ਗੜਬੜ ਹੋ ਗਈ",
-    "retry": "ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
+    "retry": "ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+    "next": "ਅੱਗੇ",
+    "back": "ਪਿੱਛੇ"
   }
 }

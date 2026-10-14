@@ -24,6 +24,23 @@ export const loginSchema = z.object({
   pin: z.string().length(4).regex(/^\d{4}$/),
 });
 
+export const requestAccessSchema = z.object({
+  phone: z.string().regex(phoneRegex, "Valid 10-digit Indian mobile number required"),
+  name: z.string().min(2, "Name required").max(100),
+  pin: z.string().length(4, "PIN must be 4 digits").regex(/^\d{4}$/, "PIN must be numeric"),
+  city: z.string().max(100).optional(),
+  preferredLanguage: z.enum(["hi", "pa", "en"]).optional(),
+});
+
+export const adminLoginSchema = z.object({
+  phone: z.string().min(3, "Phone required"),
+  password: z.string().min(1, "Password required"),
+});
+
+export const reviewRequestSchema = z.object({
+  action: z.enum(["approve", "reject"]),
+});
+
 export const refreshSchema = z.object({
   refreshToken: z.string().min(1),
 });

@@ -16,6 +16,10 @@ model Agent {
   pinHash           String?  @map("pin_hash") @db.VarChar(255)
   city              String?  @db.VarChar(100)
   preferredLanguage String   @default("hi") @map("preferred_language") @db.VarChar(2)
+  // Approval lifecycle: "pending" | "approved" | "rejected".
+  // Defaults to "approved" so pre-existing agents are never locked out;
+  // self-service access requests explicitly create rows as "pending".
+  status            String   @default("approved") @db.VarChar(10)
   isActive          Boolean  @default(true) @map("is_active")
   createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz

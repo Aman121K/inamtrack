@@ -32,6 +32,16 @@ export async function POST(req: NextRequest) {
       return error("PIN not set. Please set your PIN first.", 400);
     }
 
+    if (agent.status === "pending") {
+      console.warn(`[API] Login attempt for pending agent: ${phone}`);
+      return error("Aapki request admin approval ka intezaar kar rahi hai.", 403);
+    }
+
+    if (agent.status === "rejected") {
+      console.warn(`[API] Login attempt for rejected agent: ${phone}`);
+      return error("Aapki access request reject ho gayi hai. Admin se sampark karein.", 403);
+    }
+
     if (!agent.isActive) {
       console.warn(`[API] Login attempt for deactivated agent: ${phone}`);
       return error("Account is deactivated", 403);

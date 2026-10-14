@@ -23,7 +23,17 @@
     "enter_pin": "Enter your PIN",
     "register": "New Account",
     "already_registered": "Already have an account?",
-    "new_user": "New here?"
+    "new_user": "New here?",
+    "request_access": "Request to access this portal",
+    "request_title": "Request access",
+    "request_subtitle": "Request to join InamTrack",
+    "name_required": "Please enter your name",
+    "phone_required": "10 digit number required",
+    "pin_mismatch": "PIN did not match",
+    "pin_hint": "You will use this PIN to login",
+    "request_sent_title": "Request sent!",
+    "request_sent_msg": "Admin will review your request. Once approved, login with your phone and PIN.",
+    "go_to_login": "Go to login"
   },
   "dashboard": {
     "welcome": "Hello",
@@ -88,6 +98,8 @@
     "online": "Online",
     "syncing": "Syncing...",
     "error": "Something went wrong",
-    "retry": "Try again"
+    "retry": "Try again",
+    "next": "Next",
+    "back": "Back"
   }
 }

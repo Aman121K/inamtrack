@@ -23,7 +23,17 @@
     "enter_pin": "अपना PIN डालें",
     "register": "नया अकाउंट",
     "already_registered": "पहले से अकाउंट है?",
-    "new_user": "नया हूं?"
+    "new_user": "नया हूं?",
+    "request_access": "पोर्टल एक्सेस के लिए रिक्वेस्ट करें",
+    "request_title": "एक्सेस रिक्वेस्ट",
+    "request_subtitle": "InamTrack से जुड़ने की रिक्वेस्ट",
+    "name_required": "अपना नाम लिखें",
+    "phone_required": "10 अंक का नंबर डालें",
+    "pin_mismatch": "PIN मेल नहीं खाया",
+    "pin_hint": "इसी PIN से आप लॉगिन करेंगे",
+    "request_sent_title": "रिक्वेस्ट भेज दी!",
+    "request_sent_msg": "एडमिन आपकी रिक्वेस्ट देखेंगे। अप्रूव होते ही अपने नंबर और PIN से लॉगिन करें।",
+    "go_to_login": "लॉगिन पर जाएं"
   },
   "dashboard": {
     "welcome": "नमस्ते",
@@ -88,6 +98,8 @@
     "online": "ऑनलाइन",
     "syncing": "सिंक हो रहा...",
     "error": "कुछ गड़बड़ हो गई",
-    "retry": "फिर से कोशिश करो"
+    "retry": "फिर से कोशिश करो",
+    "next": "आगे",
+    "back": "पीछे"
   }
 }

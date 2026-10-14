@@ -114,12 +114,15 @@ function LoginContent() {
               <div className="flex-1 h-px bg-gray-100" />
             </div>
 
-            <p className="text-center mt-4 text-gray-400 text-sm">
-              {t("auth.new_user")}{" "}
-              <Link href="/register" className="text-indigo-600 font-bold">
-                {t("auth.register")}
-              </Link>
+            <p className="text-center mt-4 mb-3 text-gray-400 text-sm">
+              {t("auth.new_user")}
             </p>
+            <Link
+              href="/request-access"
+              className="flex items-center justify-center w-full h-[52px] rounded-2xl border-2 border-indigo-200 text-indigo-600 font-bold text-base active:bg-indigo-50 transition-all"
+            >
+              {t("auth.request_access")}
+            </Link>
           </div>
         </div>
       </div>

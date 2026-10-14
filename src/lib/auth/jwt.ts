@@ -12,6 +12,35 @@ export interface TokenPayload {
   phone: string;
 }
 
+export interface AdminTokenPayload {
+  role: "super_admin";
+  phone: string;
+}
+
+export async function signAdminToken(
+  payload: AdminTokenPayload
+): Promise<string> {
+  console.log(`[JWT] Signing admin token for ${payload.phone}`);
+  return new SignJWT({ ...payload })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("12h")
+    .sign(JWT_SECRET);
+}
+
+export async function verifyAdminToken(
+  token: string
+): Promise<AdminTokenPayload | null> {
+  try {
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    if (payload.role !== "super_admin") return null;
+    return payload as unknown as AdminTokenPayload;
+  } catch (e) {
+    console.warn(`[JWT] Admin token verification failed: ${(e as Error).message}`);
+    return null;
+  }
+}
+
 export async function signAccessToken(payload: TokenPayload): Promise<string> {
   console.log(`[JWT] Signing access token for agent ${payload.agentId}`);
   return new SignJWT({ ...payload })
