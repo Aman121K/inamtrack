@@ -31,7 +31,10 @@ export async function GET(req: NextRequest) {
         skip,
         take: limit,
         orderBy: { createdAt: "desc" as const },
-        include: { customer: { select: { name: true, phone: true } } },
+        include: {
+          customer: { select: { name: true, phone: true } },
+          batch: { select: { lotteryName: true } },
+        },
       }),
       prisma.sale.count({ where }),
     ]);

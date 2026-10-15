@@ -29,7 +29,7 @@ export function Header({ title, showBack, onBack }: HeaderProps) {
         </h1>
         {agent && (
           <div className="w-9 h-9 rounded-xl bg-primary-gradient text-white flex items-center justify-center font-bold text-sm shadow-glow">
-            {agent.name.charAt(0).toUpperCase()}
+            {(agent.name?.charAt(0) || "?").toUpperCase()}
           </div>
         )}
       </div>

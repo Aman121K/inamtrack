@@ -50,9 +50,22 @@ export async function GET(req: NextRequest) {
         where: { agentId },
         orderBy: { createdAt: "desc" },
         take: 5,
-        include: { customer: { select: { name: true, phone: true } } },
+        include: {
+          customer: { select: { name: true, phone: true } },
+          batch: { select: { lotteryName: true } },
+        },
       }),
     ]);
+
+    // Flatten to the shape the dashboard UI expects.
+    const recentSalesFlat = recentSales.map((s) => ({
+      id: s.id,
+      customerName: s.customer?.name ?? "—",
+      lotteryName: s.batch?.lotteryName ?? "",
+      ticketNumber: s.fullTicketId,
+      amount: s.salePrice.toString(),
+      time: s.createdAt,
+    }));
 
     const totalTicketCount = totalTickets._count > 0
       ? (totalTickets._sum.endNumber || 0) - (totalTickets._sum.startNumber || 0) + totalTickets._count
@@ -65,7 +78,7 @@ export async function GET(req: NextRequest) {
       pendingResults,
       totalWinners,
       totalCustomers,
-      recentSales,
+      recentSales: recentSalesFlat,
     };
 
     console.log("[API] Dashboard data:", JSON.stringify({

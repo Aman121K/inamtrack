@@ -85,13 +85,13 @@ export default function SalesPage() {
               <div className="flex justify-between items-start">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center text-primary-600 font-bold text-sm shrink-0 mt-0.5">
-                    {sale.fullTicketId.charAt(0)}
+                    {sale.fullTicketId?.charAt(0) || "?"}
                   </div>
                   <div>
                     <p className="font-bold text-gray-900">{sale.fullTicketId}</p>
-                    <p className="text-xs text-gray-400">{sale.batch.lotteryName}</p>
+                    <p className="text-xs text-gray-400">{sale.batch?.lotteryName}</p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {sale.customer.name} · {sale.customer.phone}
+                      {sale.customer?.name} · {sale.customer?.phone}
                     </p>
                   </div>
                 </div>

@@ -84,7 +84,7 @@ export default function CustomersPage() {
                 <div
                   className={`w-11 h-11 rounded-xl ${colors[i % colors.length]} flex items-center justify-center text-white font-bold text-sm shrink-0`}
                 >
-                  {c.name.charAt(0).toUpperCase()}
+                  {(c.name?.charAt(0) || "?").toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-gray-900 truncate">{c.name}</p>

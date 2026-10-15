@@ -35,7 +35,7 @@ export default function SettingsPage() {
         <Card>
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-2xl bg-primary-gradient flex items-center justify-center text-white font-bold text-xl shadow-glow shrink-0">
-              {agent.name.charAt(0).toUpperCase()}
+              {(agent.name?.charAt(0) || "?").toUpperCase()}
             </div>
             <div>
               <p className="font-bold text-lg text-gray-900">{agent.name}</p>

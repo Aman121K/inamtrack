@@ -116,7 +116,7 @@ export default function DashboardPage() {
               <h1 className="text-[22px] font-extrabold text-white tracking-tight">{agent.name}</h1>
             </div>
             <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center font-bold text-lg shadow-lg">
-              {agent.name.charAt(0).toUpperCase()}
+              {(agent.name?.charAt(0) || "?").toUpperCase()}
             </div>
           </div>
 
@@ -251,7 +251,7 @@ export default function DashboardPage() {
               {stats.recentSales.slice(0, 4).map((sale) => (
                 <div key={sale.id} className="flex items-center gap-3 px-4 py-3">
                   <div className="w-9 h-9 rounded-xl bg-primary-50 flex items-center justify-center text-primary-600 font-bold text-sm flex-shrink-0">
-                    {sale.customerName.charAt(0).toUpperCase()}
+                    {(sale.customerName?.charAt(0) || "?").toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-gray-900 text-sm truncate">{sale.customerName}</p>

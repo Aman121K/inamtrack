@@ -278,7 +278,7 @@ export default function SellPage() {
                       className="w-full text-left px-4 py-3 hover:bg-indigo-50 active:bg-indigo-100 border-b border-gray-50 last:border-0 transition-colors flex items-center gap-3"
                     >
                       <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-sm flex-shrink-0">
-                        {s.name.charAt(0).toUpperCase()}
+                        {(s.name?.charAt(0) || "?").toUpperCase()}
                       </div>
                       <div>
                         <p className="font-semibold text-gray-900 text-sm">{s.name}</p>
