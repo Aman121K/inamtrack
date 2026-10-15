@@ -38,7 +38,7 @@ export const adminLoginSchema = z.object({
 });
 
 export const reviewRequestSchema = z.object({
-  action: z.enum(["approve", "reject"]),
+  action: z.enum(["approve", "reject", "activate", "deactivate"]),
 });
 
 export const refreshSchema = z.object({

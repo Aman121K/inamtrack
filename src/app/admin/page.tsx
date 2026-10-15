@@ -1,187 +1,90 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Button";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { AdminShell } from "@/components/admin/AdminShell";
+import { PageLoader } from "@/components/ui/Spinner";
+import { useAdmin } from "@/hooks/useAdmin";
 
-interface AgentRequest {
-  id: string;
-  name: string;
-  phone: string;
-  city?: string | null;
-  preferredLanguage: string;
-  status: string;
-  createdAt: string;
+interface Overview {
+  totalAgents: number;
+  pendingApprovals: number;
+  activeAgents: number;
+  totalLots: number;
+  totalSales: number;
+  totalRevenue: number;
+  totalWinners: number;
+  totalCustomers: number;
 }
 
-type Tab = "pending" | "approved" | "rejected";
-
-export default function AdminDashboard() {
-  const [tab, setTab] = useState<Tab>("pending");
-  const [requests, setRequests] = useState<AgentRequest[]>([]);
-  const [counts, setCounts] = useState<Record<string, number>>({});
-  const [loading, setLoading] = useState(true);
-  const [acting, setActing] = useState<string | null>(null);
-  const router = useRouter();
-
-  const getToken = () =>
-    typeof window !== "undefined" ? localStorage.getItem("inamtrack_admin") : null;
-
-  const load = useCallback(
-    async (status: Tab) => {
-      const token = getToken();
-      if (!token) {
-        router.replace("/admin/login");
-        return;
-      }
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/admin/requests?status=${status}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.status === 401) {
-          localStorage.removeItem("inamtrack_admin");
-          router.replace("/admin/login");
-          return;
-        }
-        const data = await res.json();
-        if (data.ok) {
-          setRequests(data.data.requests);
-          setCounts(data.data.counts || {});
-        }
-      } catch {
-        // ignore
-      } finally {
-        setLoading(false);
-      }
-    },
-    [router]
+function StatCard({
+  label,
+  value,
+  accent,
+  href,
+}: {
+  label: string;
+  value: string | number;
+  accent: string;
+  href?: string;
+}) {
+  const inner = (
+    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 h-full">
+      <div className={`w-2 h-2 rounded-full ${accent} mb-3`} />
+      <p className="text-2xl font-bold text-gray-900">{value}</p>
+      <p className="text-xs text-gray-400 mt-1">{label}</p>
+    </div>
   );
+  return href ? <Link href={href}>{inner}</Link> : inner;
+}
+
+export default function AdminOverviewPage() {
+  const { adminFetch } = useAdmin();
+  const [data, setData] = useState<Overview | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    load(tab);
-  }, [tab, load]);
-
-  const review = async (id: string, action: "approve" | "reject") => {
-    const token = getToken();
-    if (!token) return;
-    setActing(id);
-    try {
-      const res = await fetch(`/api/admin/requests/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ action }),
-      });
-      if (res.ok) {
-        setRequests((prev) => prev.filter((r) => r.id !== id));
-        setCounts((prev) => ({
-          ...prev,
-          [tab]: Math.max(0, (prev[tab] || 1) - 1),
-          [action === "approve" ? "approved" : "rejected"]:
-            (prev[action === "approve" ? "approved" : "rejected"] || 0) + 1,
-        }));
-      }
-    } finally {
-      setActing(null);
-    }
-  };
-
-  const logout = () => {
-    localStorage.removeItem("inamtrack_admin");
-    router.replace("/admin/login");
-  };
-
-  const tabs: Tab[] = ["pending", "approved", "rejected"];
+    adminFetch("/api/admin/overview")
+      .then(setData)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [adminFetch]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-slate-900 text-white px-5 py-4 flex items-center justify-between sticky top-0 z-10">
-        <div>
-          <h1 className="text-lg font-bold">Super Admin</h1>
-          <p className="text-slate-400 text-xs">Agent access requests</p>
-        </div>
-        <button
-          onClick={logout}
-          className="text-sm text-slate-300 border border-slate-600 rounded-lg px-3 py-1.5 active:bg-slate-700"
-        >
-          Logout
-        </button>
-      </header>
-
-      <div className="flex gap-2 px-5 pt-4">
-        {tabs.map((tb) => (
-          <button
-            key={tb}
-            onClick={() => setTab(tb)}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-semibold capitalize transition-all ${
-              tab === tb
-                ? "bg-indigo-600 text-white shadow"
-                : "bg-white text-gray-500 border border-gray-200"
-            }`}
-          >
-            {tb}
-            {counts[tb] ? ` (${counts[tb]})` : ""}
-          </button>
-        ))}
-      </div>
-
-      <div className="p-5 space-y-3">
-        {loading ? (
-          <div className="flex justify-center py-16">
-            <span className="animate-spin h-7 w-7 border-2 border-indigo-600 border-t-transparent rounded-full" />
-          </div>
-        ) : requests.length === 0 ? (
-          <div className="text-center py-16 text-gray-400">
-            <p className="text-base font-medium">No {tab} requests</p>
-          </div>
-        ) : (
-          requests.map((r) => (
-            <div key={r.id} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="font-bold text-gray-900">{r.name}</p>
-                  <p className="text-gray-500 text-sm mt-0.5">+91 {r.phone}</p>
-                  {r.city && <p className="text-gray-400 text-xs mt-0.5">{r.city}</p>}
-                </div>
-                <span className="text-[11px] text-gray-400 uppercase font-semibold bg-gray-50 px-2 py-1 rounded-lg">
-                  {r.preferredLanguage}
-                </span>
+    <AdminShell title="Overview" subtitle="Platform summary">
+      {loading ? (
+        <PageLoader />
+      ) : data ? (
+        <>
+          {data.pendingApprovals > 0 && (
+            <Link
+              href="/admin/approvals"
+              className="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 mb-5"
+            >
+              <div>
+                <p className="font-bold text-amber-900">
+                  {data.pendingApprovals} agent{data.pendingApprovals > 1 ? "s" : ""} waiting for approval
+                </p>
+                <p className="text-xs text-amber-700 mt-0.5">Tap to review requests →</p>
               </div>
+              <span className="text-2xl font-bold text-amber-600">{data.pendingApprovals}</span>
+            </Link>
+          )}
 
-              {tab === "pending" && (
-                <div className="flex gap-2 mt-4">
-                  <Button
-                    size="md"
-                    variant="danger"
-                    onClick={() => review(r.id, "reject")}
-                    loading={acting === r.id}
-                  >
-                    Reject
-                  </Button>
-                  <Button
-                    size="md"
-                    onClick={() => review(r.id, "approve")}
-                    loading={acting === r.id}
-                  >
-                    Approve
-                  </Button>
-                </div>
-              )}
-
-              {tab === "rejected" && (
-                <div className="mt-3">
-                  <Button size="sm" variant="secondary" onClick={() => review(r.id, "approve")} loading={acting === r.id}>
-                    Approve now
-                  </Button>
-                </div>
-              )}
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <StatCard label="Total Agents" value={data.totalAgents} accent="bg-indigo-500" href="/admin/agents" />
+            <StatCard label="Active Agents" value={data.activeAgents} accent="bg-emerald-500" href="/admin/agents" />
+            <StatCard label="Pending Approvals" value={data.pendingApprovals} accent="bg-amber-500" href="/admin/approvals" />
+            <StatCard label="Total Lots" value={data.totalLots} accent="bg-purple-500" href="/admin/lots" />
+            <StatCard label="Total Sales" value={data.totalSales} accent="bg-cyan-500" />
+            <StatCard label="Total Revenue" value={`₹${data.totalRevenue.toLocaleString("en-IN")}`} accent="bg-green-500" />
+            <StatCard label="Winners" value={data.totalWinners} accent="bg-rose-500" />
+            <StatCard label="Customers" value={data.totalCustomers} accent="bg-blue-500" />
+          </div>
+        </>
+      ) : (
+        <p className="text-gray-400">Failed to load.</p>
+      )}
+    </AdminShell>
   );
 }
