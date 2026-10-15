@@ -101,5 +101,8 @@
     "retry": "Try again",
     "next": "Next",
     "back": "Back"
+  },
+  "sales": {
+    "search_placeholder": "Search by ticket, name or phone"
   }
 }

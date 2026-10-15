@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
       totalWinners,
       totalCustomers,
       recentSales,
+      todayRevenueAgg,
     ] = await Promise.all([
       prisma.sale.count({
         where: { agentId, createdAt: { gte: todayStart } },
@@ -55,6 +56,10 @@ export async function GET(req: NextRequest) {
           batch: { select: { lotteryName: true } },
         },
       }),
+      prisma.sale.aggregate({
+        where: { agentId, createdAt: { gte: todayStart } },
+        _sum: { salePrice: true },
+      }),
     ]);
 
     // Flatten to the shape the dashboard UI expects.
@@ -73,6 +78,7 @@ export async function GET(req: NextRequest) {
 
     const dashboard = {
       todaySales,
+      todayRevenue: Number(todayRevenueAgg._sum.salePrice ?? 0),
       totalTickets: totalTicketCount,
       soldTickets: soldTickets._sum.soldCount || 0,
       pendingResults,

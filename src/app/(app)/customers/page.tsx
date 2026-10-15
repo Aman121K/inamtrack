@@ -6,6 +6,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
+import { PageLoader } from "@/components/ui/Spinner";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
 import { useApi } from "@/hooks/useApi";
@@ -26,18 +27,20 @@ export default function CustomersPage() {
   const router = useRouter();
   const [customers, setCustomers] = useState<CustomerItem[]>([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isLoading && !agent) router.push("/login");
   }, [agent, isLoading, router]);
 
   useEffect(() => {
-    if (agent) {
-      const query = search ? `?search=${search}` : "";
-      apiFetch(`/api/customers${query}`)
-        .then((d) => setCustomers(d?.customers ?? []))
-        .catch(() => {});
-    }
+    if (!agent) return;
+    setLoading(true);
+    const query = search ? `?search=${encodeURIComponent(search)}` : "";
+    apiFetch(`/api/customers${query}`)
+      .then((d) => setCustomers(d?.customers ?? []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, [agent, apiFetch, search]);
 
   if (isLoading || !agent) return null;
@@ -77,8 +80,10 @@ export default function CustomersPage() {
           </svg>
         </div>
 
+        {loading && <PageLoader />}
+
         <div className="space-y-3">
-          {customers.map((c, i) => (
+          {!loading && customers.map((c, i) => (
             <Card key={c.id}>
               <div className="flex items-center gap-3">
                 <div
@@ -118,7 +123,7 @@ export default function CustomersPage() {
               </div>
             </Card>
           ))}
-          {customers.length === 0 && (
+          {!loading && customers.length === 0 && (
             <div className="text-center py-16 text-gray-400">
               <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-gray-50 flex items-center justify-center">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5">

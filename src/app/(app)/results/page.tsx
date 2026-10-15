@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Card } from "@/components/ui/Card";
+import { PageLoader } from "@/components/ui/Spinner";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
 import { useApi } from "@/hooks/useApi";
@@ -28,17 +29,19 @@ export default function ResultsPage() {
   const { apiFetch } = useApi();
   const router = useRouter();
   const [results, setResults] = useState<ResultItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isLoading && !agent) router.push("/login");
   }, [agent, isLoading, router]);
 
   useEffect(() => {
-    if (agent) {
-      apiFetch("/api/results")
-        .then((d) => setResults(d?.results ?? []))
-        .catch(() => {});
-    }
+    if (!agent) return;
+    setLoading(true);
+    apiFetch("/api/results")
+      .then((d) => setResults(d?.results ?? []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, [agent, apiFetch]);
 
   if (isLoading || !agent) return null;
@@ -47,7 +50,8 @@ export default function ResultsPage() {
     <AppShell>
       <Header title={t("results.title")} />
       <div className="px-4 py-4 space-y-3">
-        {results.map((result) => (
+        {loading && <PageLoader />}
+        {!loading && results.map((result) => (
           <Card key={result.id}>
             <div className="flex justify-between items-start mb-3">
               <div className="flex items-start gap-3">
@@ -92,7 +96,7 @@ export default function ResultsPage() {
             )}
           </Card>
         ))}
-        {results.length === 0 && (
+        {!loading && results.length === 0 && (
           <div className="text-center py-16 text-gray-400">
             <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-gray-50 flex items-center justify-center">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5">

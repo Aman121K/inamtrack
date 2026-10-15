@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { PageLoader } from "@/components/ui/Spinner";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
 import { useApi } from "@/hooks/useApi";
@@ -26,18 +28,22 @@ export default function SalesPage() {
   const { apiFetch } = useApi();
   const router = useRouter();
   const [sales, setSales] = useState<SaleItem[]>([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isLoading && !agent) router.push("/login");
   }, [agent, isLoading, router]);
 
   useEffect(() => {
-    if (agent) {
-      apiFetch("/api/sales")
-        .then((d) => setSales(d?.sales ?? []))
-        .catch(() => {});
-    }
-  }, [agent, apiFetch]);
+    if (!agent) return;
+    setLoading(true);
+    const query = search ? `?search=${encodeURIComponent(search)}` : "";
+    apiFetch(`/api/sales${query}`)
+      .then((d) => setSales(d?.sales ?? []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [agent, apiFetch, search]);
 
   if (isLoading || !agent) return null;
 
@@ -75,7 +81,32 @@ export default function SalesPage() {
     <AppShell>
       <Header title={t("nav.sales")} />
       <div className="px-4 py-4 space-y-3">
-        {sales.map((sale) => {
+        <div className="relative">
+          <Input
+            placeholder={`${t("sales.search_placeholder")}`}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-11"
+          />
+          <svg
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </div>
+
+        {loading && <PageLoader />}
+
+        {!loading && sales.map((sale) => {
           const status = statusConfig[sale.resultStatus] || statusConfig.pending;
           return (
             <Card
@@ -114,7 +145,7 @@ export default function SalesPage() {
             </Card>
           );
         })}
-        {sales.length === 0 && (
+        {!loading && sales.length === 0 && (
           <div className="text-center py-16 text-gray-400">
             <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-gray-50 flex items-center justify-center">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5">

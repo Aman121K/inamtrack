@@ -62,11 +62,11 @@ function ActionCard({
   return (
     <button
       onClick={onClick}
-      className="bg-white rounded-2xl p-4 text-center shadow-card active:scale-[0.96] active:shadow-none transition-all duration-200 animate-fade-up"
+      className="bg-white rounded-2xl px-1.5 py-3.5 text-center shadow-card active:scale-[0.96] active:shadow-none transition-all duration-200 animate-fade-up"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="flex justify-center mb-2">{icon}</div>
-      <span className="font-semibold text-[13px] text-gray-700 block">{label}</span>
+      <span className="font-semibold text-[11px] leading-tight text-gray-700 block break-words">{label}</span>
     </button>
   );
 }
@@ -99,7 +99,7 @@ export default function DashboardPage() {
     month: "short",
   });
 
-  const revenue = stats?.todayRevenue ?? (stats ? stats.todaySales * 200 : 0);
+  const revenue = stats?.todayRevenue ?? 0;
 
   return (
     <AppShell>
@@ -190,7 +190,7 @@ export default function DashboardPage() {
         {/* Quick Actions */}
         <div>
           <p className="text-[11px] font-bold text-gray-400 mb-3 uppercase tracking-widest">{t("dashboard.quick_actions")}</p>
-          <div className="grid grid-cols-4 gap-2.5">
+          <div className="grid grid-cols-4 gap-2">
             <ActionCard
               label={t("dashboard.quick_sell")}
               onClick={() => router.push("/sell")}

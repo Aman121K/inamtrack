@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
+import { PageLoader } from "@/components/ui/Spinner";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
 import { useToast } from "@/components/ui/Toast";
@@ -35,6 +36,7 @@ export default function InventoryPage() {
   const [batches, setBatches] = useState<Batch[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [listLoading, setListLoading] = useState(true);
 
   const [form, setForm] = useState({
     lotteryName: "",
@@ -50,9 +52,11 @@ export default function InventoryPage() {
   }, [agent, isLoading, router]);
 
   const loadBatches = () => {
+    setListLoading(true);
     apiFetch("/api/inventory")
       .then((d) => setBatches(d?.batches ?? []))
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setListLoading(false));
   };
 
   useEffect(() => {
@@ -189,8 +193,9 @@ export default function InventoryPage() {
         )}
 
         {/* Batch list */}
+        {listLoading && <PageLoader />}
         <div className="space-y-3">
-          {batches.map((batch) => {
+          {!listLoading && batches.map((batch) => {
             const percent = Math.round(
               (batch.soldCount / batch.ticketCount) * 100
             );
@@ -236,7 +241,7 @@ export default function InventoryPage() {
               </Card>
             );
           })}
-          {batches.length === 0 && !showForm && (
+          {!listLoading && batches.length === 0 && !showForm && (
             <div className="text-center py-16 text-gray-400">
               <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-gray-50 flex items-center justify-center">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5">

@@ -16,13 +16,23 @@ export async function GET(req: NextRequest) {
     const page = Math.max(1, parseInt(req.nextUrl.searchParams.get("page") || "1"));
     const limit = Math.min(50, Math.max(1, parseInt(req.nextUrl.searchParams.get("limit") || "20")));
     const status = req.nextUrl.searchParams.get("status");
+    const search = req.nextUrl.searchParams.get("search") || "";
     const skip = (page - 1) * limit;
 
-    console.log(`[API] Sales list: page=${page}, limit=${limit}, status=${status}, agent=${authResult.agentId}`);
+    console.log(`[API] Sales list: page=${page}, limit=${limit}, status=${status}, search="${search}", agent=${authResult.agentId}`);
 
     const where = {
       agentId: authResult.agentId,
       ...(status ? { resultStatus: status } : {}),
+      ...(search
+        ? {
+            OR: [
+              { fullTicketId: { contains: search, mode: "insensitive" as const } },
+              { customer: { name: { contains: search, mode: "insensitive" as const } } },
+              { customer: { phone: { contains: search } } },
+            ],
+          }
+        : {}),
     };
 
     const [sales, total] = await Promise.all([
