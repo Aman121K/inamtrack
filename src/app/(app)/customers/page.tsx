@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { PageLoader } from "@/components/ui/Spinner";
+import { PageLoader, Spinner } from "@/components/ui/Spinner";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
 import { useApi } from "@/hooks/useApi";
@@ -28,20 +28,61 @@ export default function CustomersPage() {
   const [customers, setCustomers] = useState<CustomerItem[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!isLoading && !agent) router.push("/login");
   }, [agent, isLoading, router]);
 
+  const load = useCallback(
+    async (pageNum: number, replace: boolean) => {
+      if (!agent) return;
+      if (replace) setLoading(true);
+      else setLoadingMore(true);
+      try {
+        const q = new URLSearchParams();
+        if (search) q.set("search", search);
+        q.set("page", String(pageNum));
+        const d = await apiFetch(`/api/customers?${q.toString()}`);
+        const items: CustomerItem[] = d?.customers ?? [];
+        setCustomers((prev) => (replace ? items : [...prev, ...items]));
+        setHasMore(pageNum < (d?.pagination?.pages ?? 1));
+        setPage(pageNum);
+      } catch {
+        // ignore
+      } finally {
+        if (replace) setLoading(false);
+        else setLoadingMore(false);
+      }
+    },
+    [agent, apiFetch, search]
+  );
+
+  // Debounced search (lazy search as you type) + initial load.
   useEffect(() => {
     if (!agent) return;
-    setLoading(true);
-    const query = search ? `?search=${encodeURIComponent(search)}` : "";
-    apiFetch(`/api/customers${query}`)
-      .then((d) => setCustomers(d?.customers ?? []))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [agent, apiFetch, search]);
+    const t = setTimeout(() => load(1, true), 300);
+    return () => clearTimeout(t);
+  }, [agent, search, load]);
+
+  // Infinite scroll.
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loadingMore && !loading) {
+          load(page + 1, false);
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [hasMore, loadingMore, loading, page, load]);
 
   if (isLoading || !agent) return null;
 
@@ -132,6 +173,11 @@ export default function CustomersPage() {
                 </svg>
               </div>
               <p className="text-sm">{t("common.no_data")}</p>
+            </div>
+          )}
+          {hasMore && (
+            <div ref={sentinelRef} className="flex justify-center py-4">
+              {loadingMore && <Spinner />}
             </div>
           )}
         </div>

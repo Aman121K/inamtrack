@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { Header } from "@/components/layout/Header";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
-import { PageLoader } from "@/components/ui/Spinner";
+import { PageLoader, Spinner } from "@/components/ui/Spinner";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useI18n } from "@/components/providers/I18nProvider";
 import { useApi } from "@/hooks/useApi";
@@ -30,20 +30,62 @@ export default function SalesPage() {
   const [sales, setSales] = useState<SaleItem[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!isLoading && !agent) router.push("/login");
   }, [agent, isLoading, router]);
 
+  // Load one page; `replace` resets the list (initial load / new search).
+  const load = useCallback(
+    async (pageNum: number, replace: boolean) => {
+      if (!agent) return;
+      if (replace) setLoading(true);
+      else setLoadingMore(true);
+      try {
+        const q = new URLSearchParams();
+        if (search) q.set("search", search);
+        q.set("page", String(pageNum));
+        const d = await apiFetch(`/api/sales?${q.toString()}`);
+        const items: SaleItem[] = d?.sales ?? [];
+        setSales((prev) => (replace ? items : [...prev, ...items]));
+        setHasMore(pageNum < (d?.pagination?.pages ?? 1));
+        setPage(pageNum);
+      } catch {
+        // ignore
+      } finally {
+        if (replace) setLoading(false);
+        else setLoadingMore(false);
+      }
+    },
+    [agent, apiFetch, search]
+  );
+
+  // Debounced search (lazy search as you type) + initial load.
   useEffect(() => {
     if (!agent) return;
-    setLoading(true);
-    const query = search ? `?search=${encodeURIComponent(search)}` : "";
-    apiFetch(`/api/sales${query}`)
-      .then((d) => setSales(d?.sales ?? []))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [agent, apiFetch, search]);
+    const t = setTimeout(() => load(1, true), 300);
+    return () => clearTimeout(t);
+  }, [agent, search, load]);
+
+  // Infinite scroll: load the next page when the sentinel scrolls into view.
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loadingMore && !loading) {
+          load(page + 1, false);
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [hasMore, loadingMore, loading, page, load]);
 
   if (isLoading || !agent) return null;
 
@@ -145,6 +187,12 @@ export default function SalesPage() {
             </Card>
           );
         })}
+        {hasMore && (
+          <div ref={sentinelRef} className="flex justify-center py-4">
+            {loadingMore && <Spinner />}
+          </div>
+        )}
+
         {!loading && sales.length === 0 && (
           <div className="text-center py-16 text-gray-400">
             <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-gray-50 flex items-center justify-center">
