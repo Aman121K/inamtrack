@@ -116,6 +116,7 @@ model Sale {
   drawDate         DateTime @map("draw_date") @db.Date
   resultStatus     String   @default("pending") @map("result_status") @db.VarChar(10)
   prizeAmount      Decimal? @map("prize_amount") @db.Decimal(12, 2)
+  notes            String?  @db.VarChar(500)
   notificationSent Boolean  @default(false) @map("notification_sent")
   offlineId        String?  @unique @map("offline_id") @db.VarChar(50)
   createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz

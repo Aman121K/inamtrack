@@ -72,7 +72,9 @@
     "sell_button": "बेचो ✓",
     "sale_done": "बिक गया!",
     "sale_failed": "गड़बड़ हो गई",
-    "change": "बदलो"
+    "change": "बदलो",
+    "notes": "नोट",
+    "notes_placeholder": "इस बिक्री के बारे में कोई नोट..."
   },
   "results": {
     "title": "नतीजे",
@@ -100,9 +102,18 @@
     "error": "कुछ गड़बड़ हो गई",
     "retry": "फिर से कोशिश करो",
     "next": "आगे",
-    "back": "पीछे"
+    "back": "पीछे",
+    "optional": "ज़रूरी नहीं"
   },
   "sales": {
-    "search_placeholder": "टिकट, नाम या नंबर से खोजें"
+    "search_placeholder": "टिकट, नाम या नंबर से खोजें",
+    "detail_title": "बिक्री विवरण",
+    "lottery": "लॉटरी",
+    "customer": "ग्राहक",
+    "phone": "फ़ोन",
+    "amount": "राशि",
+    "prize": "जीता इनाम",
+    "draw_date": "ड्रॉ तारीख",
+    "sold_on": "बेचा गया"
   }
 }

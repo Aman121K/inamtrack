@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
         orderBy: { createdAt: "desc" as const },
         include: {
           customer: { select: { name: true, phone: true } },
-          batch: { select: { lotteryName: true } },
+          batch: { select: { lotteryName: true, series: true } },
         },
       }),
       prisma.sale.count({ where }),
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
       return error(parsed.error.issues[0]?.message || "Invalid input", 400);
     }
 
-    const { batchId, ticketNumber, customerName, customerPhone, offlineId } = parsed.data;
+    const { batchId, ticketNumber, customerName, customerPhone, notes, offlineId } = parsed.data;
 
     if (offlineId) {
       const existing = await prisma.sale.findFirst({
@@ -150,6 +150,7 @@ export async function POST(req: NextRequest) {
           fullTicketId,
           drawDate: batch.drawDate,
           salePrice: batch.pricePerTicket,
+          notes: notes || null,
           offlineId,
         },
       });

@@ -72,7 +72,9 @@
     "sell_button": "Sell ✓",
     "sale_done": "Sold!",
     "sale_failed": "Something went wrong",
-    "change": "Change"
+    "change": "Change",
+    "notes": "Notes",
+    "notes_placeholder": "Any note about this sale..."
   },
   "results": {
     "title": "Results",
@@ -100,9 +102,18 @@
     "error": "Something went wrong",
     "retry": "Try again",
     "next": "Next",
-    "back": "Back"
+    "back": "Back",
+    "optional": "optional"
   },
   "sales": {
-    "search_placeholder": "Search by ticket, name or phone"
+    "search_placeholder": "Search by ticket, name or phone",
+    "detail_title": "Sale details",
+    "lottery": "Lottery",
+    "customer": "Customer",
+    "phone": "Phone",
+    "amount": "Amount",
+    "prize": "Prize won",
+    "draw_date": "Draw date",
+    "sold_on": "Sold on"
   }
 }

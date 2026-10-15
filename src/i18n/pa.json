@@ -72,7 +72,9 @@
     "sell_button": "ਵੇਚੋ ✓",
     "sale_done": "ਵਿਕ ਗਿਆ!",
     "sale_failed": "ਗੜਬੜ ਹੋ ਗਈ",
-    "change": "ਬਦਲੋ"
+    "change": "ਬਦਲੋ",
+    "notes": "ਨੋਟ",
+    "notes_placeholder": "ਇਸ ਵਿਕਰੀ ਬਾਰੇ ਕੋਈ ਨੋਟ..."
   },
   "results": {
     "title": "ਨਤੀਜੇ",
@@ -100,9 +102,18 @@
     "error": "ਕੁਝ ਗੜਬੜ ਹੋ ਗਈ",
     "retry": "ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
     "next": "ਅੱਗੇ",
-    "back": "ਪਿੱਛੇ"
+    "back": "ਪਿੱਛੇ",
+    "optional": "ਜ਼ਰੂਰੀ ਨਹੀਂ"
   },
   "sales": {
-    "search_placeholder": "ਟਿਕਟ, ਨਾਮ ਜਾਂ ਨੰਬਰ ਨਾਲ ਖੋਜੋ"
+    "search_placeholder": "ਟਿਕਟ, ਨਾਮ ਜਾਂ ਨੰਬਰ ਨਾਲ ਖੋਜੋ",
+    "detail_title": "ਵਿਕਰੀ ਵੇਰਵਾ",
+    "lottery": "ਲਾਟਰੀ",
+    "customer": "ਗਾਹਕ",
+    "phone": "ਫ਼ੋਨ",
+    "amount": "ਰਕਮ",
+    "prize": "ਜਿੱਤਿਆ ਇਨਾਮ",
+    "draw_date": "ਡਰਾਅ ਤਾਰੀਖ",
+    "sold_on": "ਵੇਚਿਆ ਗਿਆ"
   }
 }

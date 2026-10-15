@@ -67,6 +67,7 @@ export default function SellPage() {
   const [ticketNumber, setTicketNumber] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const [notes, setNotes] = useState("");
   const [suggestions, setSuggestions] = useState<CustomerSuggestion[]>([]);
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -123,6 +124,7 @@ export default function SellPage() {
           ticketNumber: parseInt(ticketNumber),
           customerName,
           customerPhone,
+          notes: notes.trim() || undefined,
         }),
       });
 
@@ -132,6 +134,7 @@ export default function SellPage() {
         setTicketNumber("");
         setCustomerPhone("");
         setCustomerName("");
+        setNotes("");
         setSuggestions([]);
       }, 1500);
 
@@ -301,6 +304,26 @@ export default function SellPage() {
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 className="w-full h-[52px] px-5 text-lg font-medium rounded-2xl bg-white border-2 border-transparent focus:border-indigo-400 outline-none shadow-card transition-all placeholder:text-gray-300"
+              />
+            </div>
+
+            {/* Notes (optional) */}
+            <div>
+              <label className="flex items-center gap-1.5 text-sm font-semibold text-gray-500 mb-2">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="8" y1="13" x2="16" y2="13" /><line x1="8" y1="17" x2="13" y2="17" />
+                </svg>
+                {t("sell.notes")}
+                <span className="text-gray-300 font-normal">({t("common.optional")})</span>
+              </label>
+              <textarea
+                placeholder={t("sell.notes_placeholder")}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value.slice(0, 500))}
+                rows={2}
+                className="w-full px-5 py-3 text-base rounded-2xl bg-white border-2 border-transparent focus:border-indigo-400 outline-none shadow-card transition-all placeholder:text-gray-300 resize-none"
               />
             </div>
 
